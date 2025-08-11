@@ -193,6 +193,30 @@ nav.mobile-nav a:hover {
   font-weight: 600;
 }
 
+/* زر انظر إلى منتجاتنا */
+.products-btn {
+  background: linear-gradient(135deg, var(--main-color), #7a3e00);
+  color: white;
+  font-size: 18px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  margin: 0 auto 25px auto; /* رفعت الهامش السفلي من 40 إلى 25 */
+  display: block;
+  max-width: 220px;
+  text-align: center;
+}
+
+.products-btn:hover {
+  background: linear-gradient(135deg, #7a3e00, var(--main-color));
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+
 /* فقرة "من هو باب الآغا" مع الشعار */
 .about-section {
   max-width: 1000px;
@@ -240,12 +264,32 @@ nav.mobile-nav a:hover {
   text-align: justify;
   position: relative;
   padding-left: 130px; /* لإفساح مساحة للشعار على اليمين */
+  display: flex;
+  flex-direction: column;
 }
 
-.about-text strong {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 26px;
+/* زر اقرأ المزيد */
+.read-more-btn {
+  background: linear-gradient(135deg, #000, #333);
+  color: white;
+  font-size: 14px; /* صغر الحجم من 16 إلى 14 */
+  padding: 8px 20px; /* تصغير الحشوة */
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  margin-top: 8px; /* رفعه لأعلى قليلاً (تقليل المسافة العليا) */
+  max-width: 120px; /* تقليل العرض */
+  text-align: center;
+  line-height: 1.2;
+}
+.read-more-btn:hover {
+  background: linear-gradient(135deg, #333, #000);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
 }
 
 /* صورة إضافية */
@@ -338,6 +382,11 @@ footer div:first-child {
   .about-text {
     text-align: center;
     padding-left: 0;
+    align-items: center;
+  }
+
+  .read-more-btn {
+    align-self: center;
   }
 
   /* إخفاء قائمة الكمبيوتر وإظهار زر الخيارات */
@@ -367,20 +416,17 @@ footer div:first-child {
     <a href="index.html" style="color: white; text-decoration: none;">شركة باب الآغا</a>
   </h1>
 
-  <!-- قائمة التنقل للكمبيوتر -->
   <nav class="main-nav">
     <a href="index.html">الصفحة الرئيسية</a>
     <a href="gall.html">المعرض</a>
   </nav>
 
-  <!-- زر الخيارات للهواتف -->
   <div class="menu-toggle" id="menuToggle" aria-label="فتح القائمة" role="button" tabindex="0">
     <span></span>
     <span></span>
     <span></span>
   </div>
 
-  <!-- قائمة التنقل للهواتف -->
   <nav class="mobile-nav" id="mobileNav">
     <a href="index.html">الصفحة الرئيسية</a>
     <a href="gall.html">المعرض</a>
@@ -411,7 +457,11 @@ footer div:first-child {
     </div>
   </div>
 
-  <!-- فقرة "من هو باب الآغا" مع شعار -->
+  <!-- زر انظر إلى منتجاتنا -->
+  <div class="products-btn-container">
+    <button class="products-btn">انظر إلى منتجاتنا</button>
+  </div>
+
   <section class="about-section">
     <div class="about-text">
       <strong>من هو باب الآغا</strong><br><br>
@@ -421,6 +471,8 @@ footer div:first-child {
       التي أصبحت عنوانًا للجودة والمذاق الأصيل.<br><br>
       إنها رحلة رغيف الخبز العراقي.<br>
       <strong>خبز باب الآغا</strong> (حار ومكسب ورخيص).
+      <br><br>
+      <button class="read-more-btn">اقرأ المزيد</button>
     </div>
     <div class="about-logo">
       <img src="logo.jpeg" alt="شعار باب الآغا" />
@@ -444,11 +496,10 @@ footer div:first-child {
         <img src="comn/tiktok.png" alt="تيك توك" />
       </a>
     </div>
-    <div>Bab Alagha Bakery Co. 2019 © All Rights Reserved.</div>
+    <div>Bab Alagha Bakery Co. 2025 © All Rights Reserved.</div>
   </footer>
 
   <script>
-    // التحكم في إظهار القائمة على الهاتف
     const menuToggle = document.getElementById('menuToggle');
     const mobileNav = document.getElementById('mobileNav');
 
@@ -456,7 +507,6 @@ footer div:first-child {
       mobileNav.classList.toggle('show');
     });
 
-    // دعم الفتح بواسطة زر "Enter" على عنصر القوائم (للوصولية)
     menuToggle.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -464,20 +514,17 @@ footer div:first-child {
       }
     });
 
-    // إظهار/إخفاء الهيدر عند التمرير
     let lastScrollTop = 0;
     const header = document.getElementById('header');
 
     window.addEventListener('scroll', () => {
       let st = window.pageYOffset || document.documentElement.scrollTop;
       if (st > lastScrollTop && st > 100) {
-        // التمرير لأسفل - إخفاء الهيدر
         header.classList.add('hidden');
       } else {
-        // التمرير لأعلى - إظهار الهيدر
         header.classList.remove('hidden');
       }
-      lastScrollTop = st <= 0 ? 0 : st; // لتجنب القيم السالبة
+      lastScrollTop = st <= 0 ? 0 : st;
     });
   </script>
 
