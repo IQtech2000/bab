@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>معرض شركة باب الآغا</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --main-color: #5c2e00;
+      --bg-color: #fffaf0;
+      --text-color: #222;
+      --font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.8;
+    }
+
+    header {
+      background-color: var(--main-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 25px;
+      flex-wrap: wrap;
+      direction: rtl;
+    }
+
+    header img.logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      order: 1;
+      cursor: pointer;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      white-space: nowrap;
+      order: 0;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+    }
+
+    /* قائمة الهاتف */
+    #menuToggle {
+      display: none;
+      cursor: pointer;
+      font-size: 28px;
+      user-select: none;
+      background: none;
+      border: none;
+      color: white;
+    }
+
+    #mobileNav {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+      background-color: var(--main-color);
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+
+    #mobileNav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    #mobileNav a:hover,
+    #mobileNav a:focus {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      #menuToggle {
+        display: block;
+      }
+      #mobileNav {
+        display: none; /* يظهر عند الضغط */
+      }
+      header h1, header img.logo {
+        order: 0;
+      }
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 15px;
+    }
+
+    /* معرض الصور والفيديو */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .gallery-item {
+      cursor: pointer;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      position: relative;
+      background: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery-item:hover,
+    .gallery-item:focus-visible {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      outline: none;
+      z-index: 2;
+    }
+
+    .gallery-item img,
+    .gallery-item video {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      border-radius: 12px;
+      user-select: none;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 15px;
+      direction: rtl;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 85vh;
+      position: relative;
+      outline: none;
+    }
+
+    .lightbox-content img,
+    .lightbox-content video {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 8px;
+      left: 12px;  /* على اليسار */
+      right: auto;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      background: rgba(0,0,0,0.5);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      line-height: 38px;
+      text-align: center;
+      transition: background-color 0.3s ease;
+      z-index: 10;
+    }
+    .lightbox-close:hover {
+      background: rgba(255,255,255,0.8);
+      color: black;
+    }
+
+    .desktop-nav {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  order: 2;
+}
+
+.desktop-nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+  outline: none;
+}
+
+/* إخفاء قائمة الكمبيوتر على الهاتف */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <header>
+  <img src="logo.jpeg" alt="شعار باب الآغا" class="logo" tabindex="0" role="link" aria-label="العودة إلى الصفحة الرئيسية" />
+  <h1 tabindex="0" role="link" aria-label="العودة إلى الصفحة الرئيسية">شركة باب الآغا</h1>
+
+  <!-- قائمة الكمبيوتر -->
+  <nav class="desktop-nav" role="navigation" aria-label="قائمة الموقع">
+    <a href="index.html">الصفحة الرئيسية</a>
+    <a href="gall.html">المعرض</a>
+  </nav>
+
+  <!-- زر القائمة والهاتف -->
+  <button id="menuToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="فتح قائمة التنقل">☰</button>
+  <nav id="mobileNav" role="navigation" aria-label="قائمة الهاتف">
+    <a href="index.html">الصفحة الرئيسية</a>
+    <a href="gall.html">المعرض</a>
+  </nav>
+</header>
+
+
+  <main>
+    <div class="gallery" id="gallery">
+      <!-- المعرض سيتم ملؤه بواسطة جافاسكريبت -->
+    </div>
+  </main>
+
+  <!-- نافذة العرض (Lightbox) -->
+  <div class="lightbox" id="lightbox" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="lightboxLabel" aria-describedby="lightboxDesc">
+    <div class="lightbox-content" id="lightboxContent" tabindex="0">
+      <button class="lightbox-close" id="lightboxClose" aria-label="إغلاق المعرض">×</button>
+      <!-- الصورة أو الفيديو يظهر هنا -->
+    </div>
+  </div>
+
+<script>
+  const mp4Files = [
+    'mp4/1.mp4',
+    'mp4/2.mp4',
+    'mp4/3.mp4'
+  ];
+
+  const jpgFiles = [
+    'jpg/1.jpg',
+    'jpg/2.jpg',
+    'jpg/3.jpg',
+    'jpg/4.jpg',
+    'jpg/5.jpg'
+  ];
+
+  const gallery = document.getElementById('gallery');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxContent = document.getElementById('lightboxContent');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  function createGalleryItem(src, isVideo) {
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    item.tabIndex = 0;
+    item.setAttribute('role', 'button');
+    item.setAttribute('aria-label', isVideo ? 'فتح فيديو في المعرض' : 'فتح صورة في المعرض');
+
+    if (isVideo) {
+      const video = document.createElement('video');
+      video.src = src;
+      video.muted = true;
+      video.loop = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.style.height = '180px';
+      video.style.width = '100%';
+      video.style.objectFit = 'cover';
+      video.setAttribute('aria-hidden', 'true');
+      item.appendChild(video);
+    } else {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      item.appendChild(img);
+    }
+
+    item.addEventListener('click', () => openLightbox(src, isVideo));
+    item.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openLightbox(src, isVideo);
+      }
+    });
+
+    return item;
+  }
+
+  function openLightbox(src, isVideo) {
+    // حذف المحتوى السابق (باستثناء زر الإغلاق)
+    while (lightboxContent.childElementCount > 1) {
+      lightboxContent.removeChild(lightboxContent.lastChild);
+    }
+
+    if (isVideo) {
+      const video = document.createElement('video');
+      video.src = src;
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.style.maxWidth = "100%";
+      video.style.maxHeight = "100%";
+      lightboxContent.appendChild(video);
+    } else {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = "الصورة مكبرة";
+      lightboxContent.appendChild(img);
+    }
+
+    lightbox.classList.add('active');
+    lightbox.focus();
+    lightboxClose.focus();
+  }
+
+  function closeLightbox() {
+    // إيقاف الفيديو إذا كان موجود
+    const video = lightboxContent.querySelector('video');
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+      video.src = "";
+      video.load();
+    }
+    lightbox.classList.remove('active');
+  }
+
+  lightboxClose.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+
+  // إضافة الملفات إلى المعرض
+  mp4Files.forEach(src => {
+    gallery.appendChild(createGalleryItem(src, true));
+  });
+  jpgFiles.forEach(src => {
+    gallery.appendChild(createGalleryItem(src, false));
+  });
+
+  // القائمة على الهاتف
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+
+  menuToggle.addEventListener('click', () => {
+    const isVisible = mobileNav.style.display === 'flex';
+    mobileNav.style.display = isVisible ? 'none' : 'flex';
+    menuToggle.setAttribute('aria-expanded', !isVisible);
+  });
+
+  menuToggle.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      menuToggle.click();
+    }
+  });
+
+  // عند الضغط على الشعار أو اسم الشركة، التوجيه إلى الصفحة الرئيسية
+  const logo = document.querySelector('header img.logo');
+  const companyName = document.querySelector('header h1');
+
+  function goHome() {
+    window.location.href = 'index.html';
+  }
+  logo.addEventListener('click', goHome);
+  logo.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      goHome();
+    }
+  });
+
+  companyName.addEventListener('click', goHome);
+  companyName.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      goHome();
+    }
+  });
+</script>
+
+</body>
+</html>
