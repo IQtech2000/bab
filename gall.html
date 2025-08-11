@@ -21,6 +21,7 @@
       line-height: 1.8;
     }
 
+    /* --- بداية الشريط العلوي الموحد --- */
     header {
       background-color: var(--main-color);
       color: white;
@@ -30,6 +31,22 @@
       padding: 12px 25px;
       flex-wrap: wrap;
       direction: rtl;
+      position: fixed;
+      width: 100%;
+      box-sizing: border-box;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+    header.hidden {
+      transform: translateY(-100%);
+    }
+
+    header .logo-link {
+      display: inline-block;
+      order: 1;
     }
 
     header img.logo {
@@ -37,8 +54,7 @@
       height: 60px;
       border-radius: 50%;
       object-fit: cover;
-      order: 1;
-      cursor: pointer;
+      vertical-align: middle;
     }
 
     header h1 {
@@ -46,64 +62,109 @@
       font-size: 22px;
       font-weight: 700;
       white-space: nowrap;
-      order: 0;
-      cursor: pointer;
-      text-decoration: none;
-      color: white;
+      order: 2;
+      flex-grow: 1;
+      margin-right: 15px;
     }
 
-    /* قائمة الهاتف */
-    #menuToggle {
-      display: none;
-      cursor: pointer;
-      font-size: 28px;
-      user-select: none;
-      background: none;
-      border: none;
-      color: white;
-    }
-
-    #mobileNav {
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 10px;
-      background-color: var(--main-color);
-      padding: 10px 20px;
-      border-radius: 8px;
-    }
-
-    #mobileNav a {
+    header h1 a {
       color: white;
       text-decoration: none;
+    }
+
+    nav.main-nav {
+      order: 3;
+      display: flex;
+      gap: 25px;
+      align-items: center;
       font-weight: 600;
       font-size: 18px;
     }
 
-    #mobileNav a:hover,
-    #mobileNav a:focus {
-      text-decoration: underline;
+    nav.main-nav a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav.main-nav a:hover,
+    nav.main-nav a.active {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      cursor: pointer;
+      order: 4;
+      background: none;
+      border: none;
+    }
+
+    .menu-toggle span {
+      display: block;
+      height: 3px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    nav.mobile-nav {
+      display: none;
+      flex-direction: column;
+      background-color: var(--main-color);
+      position: absolute;
+      top: 84px;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    nav.mobile-nav a {
+      color: white;
+      padding: 15px 25px;
+      text-decoration: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-weight: 600;
+    }
+
+    nav.mobile-nav a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .mobile-nav.show {
+      display: flex;
     }
 
     @media (max-width: 768px) {
-      #menuToggle {
-        display: block;
-      }
-      #mobileNav {
-        display: none; /* يظهر عند الضغط */
-      }
-      header h1, header img.logo {
-        order: 0;
-      }
+        header {
+            justify-content: space-between;
+        }
+        header h1 {
+            flex-grow: 0;
+            margin-right: 10px;
+        }
+        nav.main-nav {
+            display: none;
+        }
+        .menu-toggle {
+            display: flex;
+        }
     }
+    /* --- نهاية الشريط العلوي الموحد --- */
 
     main {
       max-width: 1200px;
       margin: 40px auto;
       padding: 0 15px;
+      margin-top: 124px;
     }
 
-    /* معرض الصور والفيديو */
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -138,7 +199,6 @@
       user-select: none;
     }
 
-    /* Lightbox */
     .lightbox {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -173,7 +233,7 @@
     .lightbox-close {
       position: absolute;
       top: 8px;
-      left: 12px;  /* على اليسار */
+      left: 12px;
       right: auto;
       font-size: 30px;
       color: white;
@@ -192,87 +252,79 @@
       background: rgba(255,255,255,0.8);
       color: black;
     }
-
-    .desktop-nav {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-  order: 2;
-}
-
-.desktop-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 18px;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease;
-}
-
-.desktop-nav a:hover,
-.desktop-nav a:focus {
-  background-color: rgba(255, 255, 255, 0.3);
-  outline: none;
-}
-
-/* إخفاء قائمة الكمبيوتر على الهاتف */
-@media (max-width: 768px) {
-  .desktop-nav {
-    display: none;
-  }
-}
-
   </style>
 </head>
 <body>
 
-  <header>
-  <img src="logo.jpeg" alt="شعار باب الآغا" class="logo" tabindex="0" role="link" aria-label="العودة إلى الصفحة الرئيسية" />
-  <h1 tabindex="0" role="link" aria-label="العودة إلى الصفحة الرئيسية">شركة باب الآغا</h1>
+<header id="header">
+  <a href="index.html" class="logo-link" aria-label="الرئيسية">
+    <img src="logo.jpeg" alt="شعار باب الآغا" class="logo" />
+  </a>
+  <h1>
+    <a href="index.html">شركة باب الآغا</a>
+  </h1>
 
-  <!-- قائمة الكمبيوتر -->
-  <nav class="desktop-nav" role="navigation" aria-label="قائمة الموقع">
+  <nav class="main-nav">
     <a href="index.html">الصفحة الرئيسية</a>
-    <a href="gall.html">المعرض</a>
+    <a href="gall.html" class="active">المعرض</a>
   </nav>
 
-  <!-- زر القائمة والهاتف -->
-  <button id="menuToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="فتح قائمة التنقل">☰</button>
-  <nav id="mobileNav" role="navigation" aria-label="قائمة الهاتف">
+  <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة" aria-expanded="false" aria-controls="mobileNav" role="button" tabindex="0">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="mobile-nav" id="mobileNav">
     <a href="index.html">الصفحة الرئيسية</a>
     <a href="gall.html">المعرض</a>
   </nav>
 </header>
 
-
-  <main>
+<main>
     <div class="gallery" id="gallery">
       <!-- المعرض سيتم ملؤه بواسطة جافاسكريبت -->
     </div>
-  </main>
+</main>
 
-  <!-- نافذة العرض (Lightbox) -->
-  <div class="lightbox" id="lightbox" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="lightboxLabel" aria-describedby="lightboxDesc">
+<div class="lightbox" id="lightbox" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="lightboxLabel">
     <div class="lightbox-content" id="lightboxContent" tabindex="0">
       <button class="lightbox-close" id="lightboxClose" aria-label="إغلاق المعرض">×</button>
-      <!-- الصورة أو الفيديو يظهر هنا -->
     </div>
-  </div>
+</div>
 
 <script>
-  const mp4Files = [
-    'mp4/1.mp4',
-    'mp4/2.mp4',
-    'mp4/3.mp4'
-  ];
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  const header = document.getElementById('header');
 
+  if (menuToggle && mobileNav) {
+    menuToggle.addEventListener('click', () => {
+      mobileNav.classList.toggle('show');
+      const isExpanded = mobileNav.classList.contains('show');
+      menuToggle.setAttribute('aria-expanded', isExpanded);
+    });
+  }
+
+  let lastScrollTop = 0;
+  if (header) {
+    window.addEventListener('scroll', function() {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
+        header.classList.add('hidden');
+      } else {
+        header.classList.remove('hidden');
+      }
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    }, false);
+  }
+
+  const mp4Files = [
+      'mp4/1.mp4', 'mp4/2.mp4', 'mp4/3.mp4'
+  ];
   const jpgFiles = [
-    'jpg/1.jpg',
-    'jpg/2.jpg',
-    'jpg/3.jpg',
-    'jpg/4.jpg',
-    'jpg/5.jpg'
+      'jpg/1.jpg', 'jpg/2.jpg', 'jpg/3.jpg', 'jpg/4.jpg', 'jpg/5.jpg'
   ];
 
   const gallery = document.getElementById('gallery');
@@ -280,143 +332,86 @@
   const lightboxContent = document.getElementById('lightboxContent');
   const lightboxClose = document.getElementById('lightboxClose');
 
-  function createGalleryItem(src, isVideo) {
-    const item = document.createElement('div');
-    item.className = 'gallery-item';
-    item.tabIndex = 0;
-    item.setAttribute('role', 'button');
-    item.setAttribute('aria-label', isVideo ? 'فتح فيديو في المعرض' : 'فتح صورة في المعرض');
+  if (gallery) {
+    function createGalleryItem(src, isVideo) {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.tabIndex = 0;
+        item.setAttribute('role', 'button');
+        item.setAttribute('aria-label', isVideo ? 'فتح فيديو في المعرض' : 'فتح صورة في المعرض');
 
-    if (isVideo) {
-      const video = document.createElement('video');
-      video.src = src;
-      video.muted = true;
-      video.loop = true;
-      video.autoplay = true;
-      video.playsInline = true;
-      video.style.height = '180px';
-      video.style.width = '100%';
-      video.style.objectFit = 'cover';
-      video.setAttribute('aria-hidden', 'true');
-      item.appendChild(video);
-    } else {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = '';
-      item.appendChild(img);
+        if (isVideo) {
+            const video = document.createElement('video');
+            video.src = src;
+            video.muted = true;
+            video.loop = true;
+            video.autoplay = true;
+            video.playsInline = true;
+            video.setAttribute('aria-hidden', 'true');
+            item.appendChild(video);
+        } else {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = '';
+            item.appendChild(img);
+        }
+
+        item.addEventListener('click', () => openLightbox(src, isVideo));
+        item.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openLightbox(src, isVideo);
+            }
+        });
+        return item;
     }
 
-    item.addEventListener('click', () => openLightbox(src, isVideo));
-    item.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openLightbox(src, isVideo);
-      }
+    function openLightbox(src, isVideo) {
+        while (lightboxContent.childElementCount > 1) {
+            lightboxContent.removeChild(lightboxContent.lastChild);
+        }
+
+        if (isVideo) {
+            const video = document.createElement('video');
+            video.src = src;
+            video.controls = true;
+            video.autoplay = true;
+            video.playsInline = true;
+            lightboxContent.appendChild(video);
+        } else {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = "الصورة مكبرة";
+            lightboxContent.appendChild(img);
+        }
+        lightbox.classList.add('active');
+        lightboxContent.focus();
+    }
+
+    function closeLightbox() {
+        const video = lightboxContent.querySelector('video');
+        if (video) {
+            video.pause();
+        }
+        lightbox.classList.remove('active');
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
     });
 
-    return item;
+    mp4Files.forEach(src => gallery.appendChild(createGalleryItem(src, true)));
+    jpgFiles.forEach(src => gallery.appendChild(createGalleryItem(src, false)));
   }
-
-  function openLightbox(src, isVideo) {
-    // حذف المحتوى السابق (باستثناء زر الإغلاق)
-    while (lightboxContent.childElementCount > 1) {
-      lightboxContent.removeChild(lightboxContent.lastChild);
-    }
-
-    if (isVideo) {
-      const video = document.createElement('video');
-      video.src = src;
-      video.controls = true;
-      video.autoplay = true;
-      video.playsInline = true;
-      video.style.maxWidth = "100%";
-      video.style.maxHeight = "100%";
-      lightboxContent.appendChild(video);
-    } else {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = "الصورة مكبرة";
-      lightboxContent.appendChild(img);
-    }
-
-    lightbox.classList.add('active');
-    lightbox.focus();
-    lightboxClose.focus();
-  }
-
-  function closeLightbox() {
-    // إيقاف الفيديو إذا كان موجود
-    const video = lightboxContent.querySelector('video');
-    if (video) {
-      video.pause();
-      video.currentTime = 0;
-      video.src = "";
-      video.load();
-    }
-    lightbox.classList.remove('active');
-  }
-
-  lightboxClose.addEventListener('click', closeLightbox);
-
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
-      closeLightbox();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-      closeLightbox();
-    }
-  });
-
-  // إضافة الملفات إلى المعرض
-  mp4Files.forEach(src => {
-    gallery.appendChild(createGalleryItem(src, true));
-  });
-  jpgFiles.forEach(src => {
-    gallery.appendChild(createGalleryItem(src, false));
-  });
-
-  // القائمة على الهاتف
-  const menuToggle = document.getElementById('menuToggle');
-  const mobileNav = document.getElementById('mobileNav');
-
-  menuToggle.addEventListener('click', () => {
-    const isVisible = mobileNav.style.display === 'flex';
-    mobileNav.style.display = isVisible ? 'none' : 'flex';
-    menuToggle.setAttribute('aria-expanded', !isVisible);
-  });
-
-  menuToggle.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      menuToggle.click();
-    }
-  });
-
-  // عند الضغط على الشعار أو اسم الشركة، التوجيه إلى الصفحة الرئيسية
-  const logo = document.querySelector('header img.logo');
-  const companyName = document.querySelector('header h1');
-
-  function goHome() {
-    window.location.href = 'index.html';
-  }
-  logo.addEventListener('click', goHome);
-  logo.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      goHome();
-    }
-  });
-
-  companyName.addEventListener('click', goHome);
-  companyName.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      goHome();
-    }
-  });
+});
 </script>
 
 </body>
